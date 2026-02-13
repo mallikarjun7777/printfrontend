@@ -15,7 +15,7 @@ const Marketplace = () => {
   // Fetch all items except user's own
   const fetchItems = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/marketplace", {
+      const res = await axios.get("https://printbackend.onrender.com/api/marketplace", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setItems(res.data);
@@ -31,7 +31,7 @@ const Marketplace = () => {
 
     setLoading(true);
     try {
-      await axios.post("http://localhost:5000/api/marketplace", form, {
+      await axios.post("https://printbackend.onrender.com/api/marketplace", form, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setForm({ title: "", price: "", description: "" });
@@ -53,7 +53,7 @@ const Marketplace = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/marketplace/${itemId}/interested`,
+        `https://printbackend.onrender.com/api/marketplace/${itemId}/interested`,
         { bidAmount, contact },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -72,7 +72,7 @@ const Marketplace = () => {
     if (!window.confirm("Are you sure you want to delete this item?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/marketplace/${itemId}`, {
+      await axios.delete(`https://printbackend.onrender.com/api/marketplace/${itemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setItems((prev) => prev.filter((item) => item._id !== itemId));
@@ -209,3 +209,4 @@ const Marketplace = () => {
 };
 
 export default Marketplace;
+
