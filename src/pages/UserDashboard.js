@@ -30,7 +30,7 @@ const UserDashboard = () => {
     try {
       // Upload PDF and process AI in one call
       const res = await axios.post(
-        'http://localhost:5000/api/files/processPdfAndUpload',
+        'https://printbackend.onrender.com/api/files/processPdfAndUpload',
         formData,
         {
           headers: {
@@ -69,7 +69,7 @@ const UserDashboard = () => {
     }
     setLoadingOrders(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/orders/my-orders', {
+      const res = await axios.get('https://printbackend.onrender.com/api/orders/my-orders', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrders(res.data);
@@ -192,3 +192,4 @@ const UserDashboard = () => {
 };
 
 export default UserDashboard;
+
