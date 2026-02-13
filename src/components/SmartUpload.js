@@ -30,7 +30,7 @@ const SimpleUpload = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:5000/api/orders/upload', // your backend upload endpoint
+        'https://printbackend.onrender.com/api/orders/upload', // your backend upload endpoint
         formData,
         {
           headers: {
@@ -44,7 +44,7 @@ const SimpleUpload = () => {
       
       // Create print order after upload
       await axios.post(
-        'http://localhost:5000/api/orders/create',
+        'https://printbackend.onrender.com/api/orders/create',
         { fileUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -97,3 +97,4 @@ const SimpleUpload = () => {
 };
 
 export default SimpleUpload;
+
