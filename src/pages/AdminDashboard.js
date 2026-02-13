@@ -10,7 +10,7 @@ const AdminDashboard = () => {
 
   const fetchAllOrders = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/orders/all', {
+      const res = await axios.get('https://printbackend.onrender.com/api/orders/all', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrders(res.data);
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
     setUpdatingId(id);
     try {
       await axios.put(
-        `http://localhost:5000/api/orders/update/${id}`,
+        `https://printbackend.onrender.com/api/orders/update/${id}`,
         { status: statusUpdate[id] },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -139,3 +139,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
