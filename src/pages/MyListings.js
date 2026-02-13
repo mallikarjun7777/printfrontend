@@ -11,7 +11,7 @@ const MyListings = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/marketplace/my-listings",
+        "https://printbackend.onrender.com/api/marketplace/my-listings",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setMyItems(res.data);
@@ -28,7 +28,7 @@ const MyListings = () => {
 
     setDeleting((prev) => ({ ...prev, [itemId]: true }));
     try {
-      await axios.delete(`http://localhost:5000/api/marketplace/${itemId}`, {
+      await axios.delete(`https://printbackend.onrender.com/api/marketplace/${itemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMyItems((prev) => prev.filter((item) => item._id !== itemId));
@@ -117,3 +117,4 @@ const MyListings = () => {
 };
 
 export default MyListings;
+
