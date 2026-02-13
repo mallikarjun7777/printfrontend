@@ -7,21 +7,7 @@ const MyListings = () => {
   const [deleting, setDeleting] = useState({});
   const token = localStorage.getItem("token");
 
-  const fetchMyListings = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get(
-        "https://printbackend.onrender.com/api/marketplace/my-listings",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setMyItems(res.data);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to fetch your listings");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // initial fetch moved into useEffect to avoid dependency warnings
 
   const handleDelete = async (itemId) => {
     if (!window.confirm("Are you sure you want to delete this item?")) return;
@@ -42,8 +28,27 @@ const MyListings = () => {
   };
 
   useEffect(() => {
-    fetchMyListings();
-  }, []);
+    let mounted = true;
+    const load = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          "https://printbackend.onrender.com/api/marketplace/my-listings",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (mounted) setMyItems(res.data);
+      } catch (err) {
+        console.error(err);
+        alert("Failed to fetch your listings");
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, [token]);
 
   return (
     <div className="min-h-screen bg-gray-100">

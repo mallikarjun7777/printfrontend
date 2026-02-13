@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ const UserDashboard = () => {
         }
       );
 
-      const { fileUrl, originalName, aiData: aiResponse } = res.data;
+      const { aiData: aiResponse } = res.data;
 
       // Refresh orders list
       await fetchOrders();
@@ -62,7 +62,7 @@ const UserDashboard = () => {
     }
   };
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     if (!token) {
       setError('User not authenticated. Please login.');
       return;
@@ -79,11 +79,11 @@ const UserDashboard = () => {
     } finally {
       setLoadingOrders(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchOrders();
-  }, [token]);
+  }, [fetchOrders]);
 
   return (
     <div className="min-h-screen bg-gray-100 pt-28 pb-12 px-4 sm:px-6 lg:px-8">

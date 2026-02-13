@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
 const AdminDashboard = () => {
@@ -8,7 +8,7 @@ const AdminDashboard = () => {
 
   const token = localStorage.getItem('token');
 
-  const fetchAllOrders = async () => {
+  const fetchAllOrders = useCallback(async () => {
     try {
       const res = await axios.get('https://printbackend.onrender.com/api/orders/all', {
         headers: { Authorization: `Bearer ${token}` },
@@ -18,7 +18,7 @@ const AdminDashboard = () => {
       console.error(err);
       alert('Failed to fetch orders');
     }
-  };
+  }, [token]);
 
   const updateStatus = async (id) => {
     if (!window.confirm('Are you sure you want to update the status?')) return;
@@ -44,7 +44,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchAllOrders();
-  }, []);
+  }, [fetchAllOrders]);
 
   // Helper to render status badge
   const renderStatusBadge = (status) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const Marketplace = () => {
   const navigate = useNavigate();
 
   // Fetch all items except user's own
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       const res = await axios.get("https://printbackend.onrender.com/api/marketplace", {
         headers: { Authorization: `Bearer ${token}` },
@@ -22,7 +22,7 @@ const Marketplace = () => {
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [token]);
 
   // Add new item
   const handleSubmit = async (e) => {
@@ -83,8 +83,22 @@ const Marketplace = () => {
   };
 
   useEffect(() => {
-    fetchItems();
-  }, []);
+    let mounted = true;
+    const load = async () => {
+      try {
+        const res = await axios.get("https://printbackend.onrender.com/api/marketplace", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (mounted) setItems(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, [token]);
 
   return (
     <div className="min-h-screen bg-gray-100">
