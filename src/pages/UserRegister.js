@@ -13,7 +13,7 @@ const UserRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/users/register", form);
+      await axios.post("https://printbackend.onrender.com/api/users/register", form);
       alert("Registration successful! Please login.");
       navigate("/user/login");
     } catch (err) {
@@ -115,3 +115,4 @@ const UserRegister = () => {
 };
 
 export default UserRegister;
+
